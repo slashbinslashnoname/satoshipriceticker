@@ -92,12 +92,13 @@
             print(data.price)
             let amount = data.amount*data.price;
             document.getElementById('last_amount').innerHTML = "Last trade: "+ parseInt(amount) + ' USD'
-            playSound("coin", { volume: .1 });
 
             if(amount > max_amount) {
                 playSound("jump", { volume: .4 });
                 max_amount = amount;
                 document.getElementById('best_amount').innerHTML = "Best trade: "+ parseInt(max_amount) + ' USD'
+            } else {
+                playSound("coin", { volume: .1 });
             }
         });
 
