@@ -57,7 +57,7 @@
         <div class="row navbar">
             <div id="price" class="column"></div>
             <div id="last_amount" class="column"></div>
-            <div class="column"></div>
+            <div id="best_amount" class="column"></div>
             <div id="websocket" class="column"></div>
         </div>
 
@@ -73,12 +73,17 @@
             pusher = new Pusher('de504dc5763aeef9ff52'),
             tickerChannel = pusher.subscribe('live_trades');
 
-       
+        var max_amount = 0;
         // startchannel
         tickerChannel.bind('trade', function (data) {
             console.log(data)
             print(data.price)
-            document.getElementById('last_amount').innerHTML = "Last trade: "+ parseInt(data.amount*data.price) + ' USD'
+            let amount = data.amount*data.price;
+            document.getElementById('last_amount').innerHTML = "Last trade: "+ parseInt(amount) + ' USD'
+            if(amount > max_amount) {
+                max_amount = amount;
+                document.getElementById('best_amount').innerHTML = "Best trade: "+ parseInt(max_amount) + ' USD'
+            }
         });
         pusher.connection.bind('state_change', function(states) {
             document.getElementById('websocket').innerHTML = "Websocket: "+ states.current
